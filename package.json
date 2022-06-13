@@ -1,7 +1,7 @@
 {
   "name": "@dyte-in/symbl-transcription",
   "version": "1.0.0",
-  "description": "",
+  "description": "Audio middleware to generate transcriptions using Symbl.ai APIs",
   "types": "./types/index.d.ts",
   "main": "./dist/index.cjs.js",
   "browser": "./dist/index.umd.js",
