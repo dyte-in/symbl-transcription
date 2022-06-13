@@ -41,7 +41,7 @@
     "axios": ">=0.25.0"
   },
   "devDependencies": {
-    "@dytesdk/web-core": "0.26.0",
+    "@dyte-in/client-core": "0.26.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
