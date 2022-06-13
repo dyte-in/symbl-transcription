@@ -1,0 +1,68 @@
+name: Release to production
+on:
+  repository_dispatch:
+    types: [prod-release]
+  create:
+    tags:
+      - v**-staging.[0-9]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+          token: ${{ secrets.SEMANTIC_RELEASE_PAT }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+
+      - name: Set NPM_TOKEN
+        run: echo "NPM_TOKEN=${{ secrets.NPM_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build package
+        run: npm run build
+
+      - name: Release
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          ENVIRONMENT: ${{ github.ref }}
+        run: npm publish --access public
+
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ap-south-1
+
+      # - name: Extract version
+      #   run: |
+      #     PACKAGE_VERSION=$(cat package.json \
+      #       | grep version \
+      #       | head -1 \
+      #       | awk -F: '{ print $2 }' \
+      #       | sed 's/[",]//g' \
+      #       | tr -d ' ')
+
+      #     echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      # - name: Publish to CDN
+      #   run: |
+      #     echo "Publishing on cdn.dyte.in"
+      #     cd dist/
+      #     rm -rf index.html
+      #     rm -rf types/
+      #     mv index.umd.js dyte.js
+      #     cp dyte.js "dyte-$PACKAGE_VERSION.js"
+      #     aws s3 sync --acl public-read . s3://cdn.dyte.in/core/
+      #   env:
+      #     PACKAGE_VERSION: ${{ env.PACKAGE_VERSION }}

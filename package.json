@@ -29,12 +29,6 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --ext .js --fix",
     "build": "tsc && vite build && vite build -c vite.umd.config.ts",
-    "build:demo": "vite build -c vite.demo.config.ts",
-    "dev": "vite",
-    "test": "jest",
-    "start": "serve -s dist -l 3000 -n",
-    "start:demo": "serve -s build -l 3000 -n",
-    "docs": "tsc -p docs/tsconfig.docs.json && node docs/api-reference-generator.js",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "cp package.json package.json.bak && node prepublish.js",
     "postpublish": "mv package.json.bak package.json"
@@ -46,7 +40,7 @@
     "axios": ">=0.25.0"
   },
   "devDependencies": {
-    "@dytesdk/web-core": "file:../web-core",
+    "@dytesdk/web-core": "0.26.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
@@ -80,5 +74,15 @@
     "type-fest": "^2.12.1",
     "typescript": "^4.6.4",
     "vite": "^2.6.14"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }

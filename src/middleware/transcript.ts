@@ -143,12 +143,14 @@ async function init({
 
     // Fired when the WebSocket closes unexpectedly due to an error or lost connetion
     ws.onerror = (err) => {
-        console.error(err);
+        // eslint-disable-next-line no-console
+        console.error('Symbl websocket error: ', err);
     };
 
     // Fired when the WebSocket connection has been closed
     ws.onclose = () => {
-        console.info('Connection to websocket closed');
+        // eslint-disable-next-line no-console
+        console.info('Connection to Symbl websocket closed');
     };
 
     // Fired when the connection succeeds.
@@ -248,6 +250,7 @@ async function cleanup({
         }
         ws?.close();
     } catch (ex) {
+        // eslint-disable-next-line no-console
         console.error('Failed to close Symbl websocket. Error: ', ex);
     }
 }
