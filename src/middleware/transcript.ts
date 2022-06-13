@@ -5,11 +5,11 @@
 
 import axios from 'axios';
 import DyteClient from '@dytesdk/web-core';
-import { RoomMessage } from '@dytesdk/web-core/types/client/DyteClient';
+import { BroadcastMessagePayload } from '@dytesdk/web-core/types/client/DyteParticipants';
 
 let ws: WebSocket;
 
-let transcriptions: RoomMessage[] = [];
+let transcriptions: BroadcastMessagePayload[] = [];
 
 export interface InitConfig {
     meeting: DyteClient,
@@ -103,7 +103,7 @@ async function init({
 
                 if (symblIdToPeerIdMap[message.from?.id] === meeting.self.id) {
                     // More accurate Transcript
-                    meeting.sendRoomMessage(
+                    meeting.participants.broadcastMessage(
                         'audioTranscriptionMessage', // This can be named anything we want
                         {
                             text: message.payload.content,
@@ -126,7 +126,7 @@ async function init({
                 // Need this mapping there to use it to show/send transcripts
                 symblIdToPeerIdMap[data.message.user.id as string] = meeting.self.id;
 
-                meeting.sendRoomMessage(
+                meeting.participants.broadcastMessage(
                     'audioTranscriptionMessage', // This can be named anything we want
                     {
                         text: data.message.punctuated.transcript,
@@ -173,8 +173,8 @@ async function init({
         }));
     };
 
-    meeting.on('roomMessage', async (
-        { payload, type } : { payload: RoomMessage, type: string },
+    meeting.participants.on('broadcastedMessage', async (
+        { payload, type } : { payload: BroadcastMessagePayload, type: string },
     ) => {
         if (type === 'audioTranscriptionMessage') {
             /**
@@ -183,7 +183,7 @@ async function init({
              */
 
             // Remove all in-progress transcriptions of this user
-            const filteredTranscriptions: RoomMessage[] = [];
+            const filteredTranscriptions: BroadcastMessagePayload[] = [];
             transcriptions.forEach((transcription) => {
                 const shoudKeep = transcription.peerId !== payload.peerId // allow from others
                 || ( // allow this peerId messages only if they are completed

@@ -1,8 +1,28 @@
 {
-  "name": "dyte-middleware-symbl-ai-transcriptions",
+  "name": "@dyte-in/symbl-transcription",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "types": "./types/index.d.ts",
+  "main": "./dist/index.cjs.js",
+  "browser": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravindra-dyte/dyte-middleware-symbl-ai-transcriptions.git"
+  },
+  "bugs": {
+    "url": "https://community.dyte.io"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
   "author": "",
   "license": "ISC",
   "scripts": {
@@ -20,14 +40,13 @@
     "postpublish": "mv package.json.bak package.json"
   },
   "peerDepdendencies": {
-    "@dytesdk/web-core": ">=0.24.0",
     "axios": ">=0.25.0"
   },
   "dependencies": {
-    "@dytesdk/web-core": "file:../web-core",
     "axios": ">=0.25.0"
   },
   "devDependencies": {
+    "@dytesdk/web-core": "file:../web-core",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
