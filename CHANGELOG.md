@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/dyte-in/symbl-transcription/compare/v1.0.0...v1.0.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* **prepublish:** added prepublish file for release versioning ([00efe19](https://github.com/dyte-in/symbl-transcription/commit/00efe197901f138fb98e1054d397c744cd467eec))
+
 # 1.0.0 (2022-06-15)
 
 
