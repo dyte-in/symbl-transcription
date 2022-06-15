@@ -1,7 +1,7 @@
 {
   "name": "@dyte-in/symbl-transcription",
   "version": "1.0.0",
-  "description": "",
+  "description": "Audio middleware to generate transcriptions using Symbl.ai APIs",
   "types": "./types/index.d.ts",
   "main": "./dist/index.cjs.js",
   "browser": "./dist/index.umd.js",
@@ -9,12 +9,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+      "require": "./dist/index.cjs.js",
+      "types": "./types/index.d.ts"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ravindra-dyte/dyte-middleware-symbl-ai-transcriptions.git"
+    "url": "git+https://github.com/dyte-in/symbl-transcription.git"
   },
   "bugs": {
     "url": "https://community.dyte.io"
@@ -40,7 +41,7 @@
     "axios": ">=0.25.0"
   },
   "devDependencies": {
-    "@dytesdk/web-core": "0.26.0",
+    "@dyte-in/client-core": "0.26.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",
@@ -72,7 +73,7 @@
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
     "type-fest": "^2.12.1",
-    "typescript": "^4.6.4",
+    "typescript": "^4.7.0",
     "vite": "^2.6.14"
   },
   "config": {

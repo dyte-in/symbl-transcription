@@ -4,8 +4,8 @@
  */
 
 import axios from 'axios';
-import DyteClient from '@dytesdk/web-core';
-import { BroadcastMessagePayload } from '@dytesdk/web-core/types/client/DyteParticipants';
+import DyteClient from '@dyte-in/client-core';
+import { BroadcastMessagePayload } from '@dyte-in/client-core/types/client/DyteParticipants';
 
 let ws: WebSocket;
 

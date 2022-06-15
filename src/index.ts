@@ -1,6 +1,6 @@
 import {
     init, cleanup, getTranscriptions, InitConfig, CleanupConfig,
-} from './middleware/transcript';
+} from './transcript';
 
 async function activateTranscriptions(param: InitConfig) {
     if (!param?.meeting?.self) {
