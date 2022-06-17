@@ -12,7 +12,7 @@ const meeting = DyteClient.init(...)
 On top of the file where integration was found, import this package.
 
 ```
-import { activateTranscriptions, deactivateTranscriptions } from '@dyte-in/symbl-transcription';
+import { activateTranscriptions, deactivateTranscriptions } from '@dytesdk/symbl-transcription';
 ```
 
 Now activate transcriptions.
@@ -23,7 +23,7 @@ activateTranscriptions({
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
     noOfTranscriptionsToShow: 3,
     noOfTranscriptionsToCache: 200,
-    transcriptionDivId?: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
+    transcriptionDivId: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
 });
 ```
 
@@ -35,7 +35,7 @@ deactivateTranscriptions({
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
     noOfTranscriptionsToShow: 3,
     noOfTranscriptionsToCache: 200,
-    transcriptionDivId?: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
+    transcriptionDivId: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
 });
 ```
 
