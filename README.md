@@ -22,9 +22,11 @@ activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
     noOfTranscriptionsToCache: 200,
-    callback?: (allFormattedTranscriptions ),
+    transcriptionsCallback: (allFormattedTranscriptions ),
 });
 ```
+
+<b>NOTE</b>: For every partial or complete sentence, `transcriptionsCallback` will be called, with all formatted transcriptions (upto `noOfTranscriptionsToCache`).
 
 Once done, deactivate the transcriptions.
 
