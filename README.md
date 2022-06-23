@@ -22,7 +22,7 @@ activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
     noOfTranscriptionsToCache: 200,
-    transcriptionsCallback: (allFormattedTranscriptions ),
+    transcriptionsCallback: (allFormattedTranscriptions) => { console.log(allFormattedTranscriptions); },
 });
 ```
 
