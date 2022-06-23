@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/dyte-in/symbl-transcription/compare/v1.0.2...v1.1.0) (2022-06-23)
+
+
+### Features
+
+* **callbacksupport:** added callback support for transcriptions ([57292a6](https://github.com/dyte-in/symbl-transcription/commit/57292a6f9a906c233ded4af59aa58f8929e03ef0))
+
 ## [1.0.2](https://github.com/dyte-in/symbl-transcription/compare/v1.0.1...v1.0.2) (2022-06-17)
 
 
