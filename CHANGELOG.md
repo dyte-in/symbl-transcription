@@ -1,3 +1,11 @@
+## [1.1.1](https://github.com/dyte-in/symbl-transcription/compare/v1.1.0...v1.1.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* **readme:** fixed readme file and added more context ([b4f7182](https://github.com/dyte-in/symbl-transcription/commit/b4f7182e7096400a1c6e5d686b4534f82602050c))
+* **readme:** fixing readme file to have proper callback function ([ebd5f1a](https://github.com/dyte-in/symbl-transcription/commit/ebd5f1a3ba78c15ba5c0b29bb64a99378ef03e44))
+
 # [1.1.0](https://github.com/dyte-in/symbl-transcription/compare/v1.0.2...v1.1.0) (2022-06-23)
 
 
