@@ -17,7 +17,7 @@ export interface InitConfig {
     noOfTranscriptionsToCache?: number,
     transcriptionsCallback: (
         allFormattedTranscriptions: BroadcastMessagePayload[]
-    ) => {},
+    ) => void,
 }
 
 export interface CleanupConfig{
