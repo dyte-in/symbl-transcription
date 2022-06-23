@@ -6,7 +6,7 @@ Find the Dyte integration logic in your codebase which may look like this
 
 ```
 // Somewhere in your codebase
-const meeting = DyteClient.init(...)
+const meeting = await DyteClient.init(...)
 ```
 
 On top of the file where integration was found, import this package.
@@ -21,9 +21,8 @@ Now activate transcriptions.
 activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
-    noOfTranscriptionsToShow: 3,
     noOfTranscriptionsToCache: 200,
-    transcriptionDivId: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
+    callback?: (allFormattedTranscriptions ),
 });
 ```
 
@@ -33,9 +32,6 @@ Once done, deactivate the transcriptions.
 deactivateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
-    noOfTranscriptionsToShow: 3,
-    noOfTranscriptionsToCache: 200,
-    transcriptionDivId: 'CREATE_A_DIV_AND_PUT_THE_ID_HERE',
 });
 ```
 

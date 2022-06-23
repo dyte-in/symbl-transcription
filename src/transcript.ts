@@ -3,7 +3,7 @@
  * We are not utilising Symbl.ai messaging in favor of Dyte websocket messaging
  */
 
-import axios from 'axios';
+// import axios from 'axios';
 import DyteClient from '@dyte-in/client-core';
 import { BroadcastMessagePayload } from '@dyte-in/client-core/types/client/DyteParticipants';
 
@@ -14,15 +14,15 @@ let transcriptions: BroadcastMessagePayload[] = [];
 export interface InitConfig {
     meeting: DyteClient,
     symblAccessToken: string,
-    noOfTranscriptionsToShow?: number,
     noOfTranscriptionsToCache?: number,
-    transcriptionDivId?: string,
+    transcriptionsCallback: (
+        allFormattedTranscriptions: BroadcastMessagePayload[]
+    ) => {},
 }
 
 export interface CleanupConfig{
     meeting: DyteClient,
     symblAccessToken: string,
-    transcriptionDivId?: string,
 }
 
 const symblIdToPeerIdMap: {[key: string]: string} = {};
@@ -58,10 +58,6 @@ async function audioTranscriptionMiddleware(audioContext: AudioContext) {
  * @param config Required params to initialise the middleware.
  * meeting is needed to send messages across peers and to listen to room messages.
  * symblAccessToken is needed to connect to symbl.ai.
- * noOfTranscriptionsToShow (1 - n) indicates last n transcriptions to show (Default: 3).
- * transcriptionDivId is the id of the div where
- * you want the (noOfTranscriptionsToShow) transcriptions to be populated.
- * If no valid `transcriptionDivId` is provided, we will safely skip dom update.
  * noOfTranscriptionsToCache is the count of transcriptions you want
  *  to save in the cache (Default: 200).
  * @returns the raw result which `meeting.self.addAudioMiddleware` returns
@@ -69,9 +65,8 @@ async function audioTranscriptionMiddleware(audioContext: AudioContext) {
 async function init({
     meeting,
     symblAccessToken,
-    noOfTranscriptionsToShow = 3,
     noOfTranscriptionsToCache = 200,
-    transcriptionDivId,
+    transcriptionsCallback,
 }: InitConfig) {
     transcriptions.splice(0); // In case, the package gets reinitialized, resetting transcriptions
 
@@ -83,7 +78,10 @@ async function init({
     // Fired when a message is received from the WebSocket server
     ws.onmessage = async (event) => {
         const data = JSON.parse(event.data);
-        if (data.type === 'message' && data.message.type === 'recognition_started' && Object.prototype.hasOwnProperty.call(data.message, 'data')) {
+        /*
+        // There is a bug in above section. peerId: message.from?.id, is not correct. Need a way.
+        if (data.type === 'message' && data.message.type === 'recognition_started'
+            && Object.prototype.hasOwnProperty.call(data.message, 'data')) {
             // Get previous conversations, if your app requires it
             const messagesResp = await axios.get(`https://api.symbl.ai/v1/conversations/${data.message.data.conversationId}/messages`, {
                 headers: { Authorization: `Bearer ${symblAccessToken}` },
@@ -91,12 +89,17 @@ async function init({
 
             const messages = messagesResp.data.messages.map((message: any) => ({
                 text: message.text,
-                startTime: message.startTime,
+                isPartialTranscript: false,
+                startTimeISO: message.startTime,
+                endTimeISO: message.endTime,
+                peerId: message.from?.id,
+                displayName: message.from?.name,
             }));
 
             // When a new peer joins, pushing previous messages
             transcriptions = [].concat(messages).concat(transcriptions);
         }
+        */
         if (data.type === 'message_response') {
             data.messages?.forEach((message: any) => {
                 // console.log('Live transcript (more accurate): ', message.payload.content, data);
@@ -204,30 +207,8 @@ async function init({
             // to not have a huge array of elements
             transcriptions = transcriptions.slice(-1 * noOfTranscriptionsToCache);
 
-            // Update in DOM
-            const transcriptionsDiv = document.getElementById(transcriptionDivId) as HTMLDivElement;
-
-            if (transcriptionsDiv) {
-                transcriptionsDiv.innerHTML = '';
-
-                const transcriptionsToShow = transcriptions.slice(-1 * noOfTranscriptionsToShow);
-
-                transcriptionsToShow.forEach((transcription) => {
-                    const speakerSpan = document.createElement('span');
-                    speakerSpan.classList.add('dyte-transcription-speaker');
-                    speakerSpan.innerText = `${transcription.displayName}: `;
-
-                    const transcriptionSpan = document.createElement('span');
-                    transcriptionSpan.classList.add('dyte-transcription-text');
-                    transcriptionSpan.innerText = transcription.text?.toString();
-
-                    const transcriptionLine = document.createElement('span');
-                    transcriptionLine.classList.add('dyte-transcription-line');
-                    transcriptionLine.appendChild(speakerSpan).appendChild(transcriptionSpan);
-
-                    transcriptionsDiv.appendChild(transcriptionLine);
-                });
-            }
+            // call the callback
+            transcriptionsCallback(transcriptions);
         }
     });
 
@@ -236,18 +217,9 @@ async function init({
 
 async function cleanup({
     meeting,
-    transcriptionDivId,
 }: CleanupConfig) {
     try {
         meeting.self.removeAudioMiddleware(audioTranscriptionMiddleware);
-
-        // Remove from DOM
-        const transcriptionsDiv = document.getElementById(transcriptionDivId) as HTMLDivElement;
-        if (transcriptionsDiv) {
-            transcriptionsDiv.childNodes.forEach((child) => {
-                child.remove();
-            });
-        }
         ws?.close();
     } catch (ex) {
         // eslint-disable-next-line no-console
