@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/dyte-in/symbl-transcription/compare/v1.1.1...v1.1.2) (2022-06-23)
+
+
+### Bug Fixes
+
+* **transcriptionscallback:** changed return type to void instead of object ([6bf1f41](https://github.com/dyte-in/symbl-transcription/commit/6bf1f418a50a1122c497f666fd69d94c88951174))
+
 ## [1.1.1](https://github.com/dyte-in/symbl-transcription/compare/v1.1.0...v1.1.1) (2022-06-23)
 
 
