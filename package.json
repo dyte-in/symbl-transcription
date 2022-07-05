@@ -35,13 +35,11 @@
     "postpublish": "mv package.json.bak package.json"
   },
   "peerDepdendencies": {
-    "axios": ">=0.25.0"
+    "@dytesdk/web-core": ">=0.26.0"
   },
-  "dependencies": {
-    "axios": ">=0.25.0"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@dyte-in/client-core": "0.26.0",
+    "@dytesdk/web-core": ">=0.26.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@semantic-release/changelog": "^5.0.1",

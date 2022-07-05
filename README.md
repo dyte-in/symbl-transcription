@@ -12,23 +12,40 @@ const meeting = await DyteClient.init(...)
 On top of the file where integration was found, import this package.
 
 ```
-import { activateTranscriptions, deactivateTranscriptions } from '@dytesdk/symbl-transcription';
+import {
+    activateTranscriptions,
+    deactivateTranscriptions,
+    addTranscriptionsListerner,
+    removeTranscriptionsListener
+} from '@dytesdk/symbl-transcription';
 ```
 
-Now activate transcriptions.
+Now you can activate Symbl transcriptions.
 
 ```
 activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
-    noOfTranscriptionsToCache: 200,
-    transcriptionsCallback: (allFormattedTranscriptions) => { console.log(allFormattedTranscriptions); },
 });
 ```
 
-<b>NOTE</b>: For every partial or complete sentence, `transcriptionsCallback` will be called, with all formatted transcriptions (upto `noOfTranscriptionsToCache`).
+This would ensure that your audio gets translated and resultant transcriptions get sent to all participants including `self` being referred by `meeting.self`.
 
-Once done, deactivate the transcriptions.
+If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
+
+```
+addTranscriptionsListerner({
+    meeting: meeting,
+    noOfTranscriptionsToCache: 200,
+    transcriptionsCallback: (allFormattedTranscriptions) => { console.log(allFormattedTranscriptions); },
+})
+```
+
+Using `transcriptionsCallback` you can populate the transcriptions in your app/website at any desired place.
+
+<b>NOTE</b>: For every partial or complete sentence, `transcriptionsCallback` will be called, with all formatted transcriptions.
+
+Once meeting is over, deactivate the transcription generation.
 
 ```
 deactivateTranscriptions({
@@ -36,6 +53,12 @@ deactivateTranscriptions({
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
 });
 ```
+In similar fashion, remove the transcriptions listener, once the meeting is over.
+
+```
+removeTranscriptionsListener({meeting: meeting});
+```
+
 
 # How to get symblAccessToken?
 
