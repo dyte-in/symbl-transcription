@@ -18,6 +18,7 @@ import {
 async function activateTranscriptions({
     meeting,
     symblAccessToken,
+    languageCode,
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
@@ -97,7 +98,7 @@ async function activateTranscriptions({
             // insightTypes: ['question', 'action_item'], // Will enable insight generation
             config: {
                 confidenceThreshold: 0.5,
-                languageCode: 'en-US',
+                languageCode, // Symbl has bug. This field is not honoured
                 speechRecognition: {
                     encoding: 'LINEAR16',
                     sampleRateHertz: 44100,
