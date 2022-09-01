@@ -2,9 +2,6 @@ name: Release to production
 on:
   repository_dispatch:
     types: [prod-release]
-  create:
-    tags:
-      - v**-staging.[0-9]
 
 jobs:
   release:
