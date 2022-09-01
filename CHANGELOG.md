@@ -1,3 +1,22 @@
+# [2.0.0](https://github.com/dyte-in/symbl-transcription/compare/v1.1.2...v2.0.0) (2022-09-01)
+
+
+### Documentation
+
+* **readme:** added readme as per new design ([821aab3](https://github.com/dyte-in/symbl-transcription/commit/821aab305db149ef3a0eddd71950fd6ec3e5f261))
+
+
+### Features
+
+* **languagecodesupport:** added symbl language support code, it doesn't work as expected however ([e37ba1d](https://github.com/dyte-in/symbl-transcription/commit/e37ba1d343e0e78d01cdc22e34c486c64d01f368))
+* **transactionlistenonlysupport:** added support for users who would only listen ([dee36e3](https://github.com/dyte-in/symbl-transcription/commit/dee36e3671d238b991fdd88440409f02ebcf5f45))
+
+
+### BREAKING CHANGES
+
+* **readme:** New functionality forces the user to make 2 function calls instead of 1 to achieve
+the same result
+
 # [2.0.0-staging.1](https://github.com/dyte-in/symbl-transcription/compare/v1.1.2...v2.0.0-staging.1) (2022-08-05)
 
 
