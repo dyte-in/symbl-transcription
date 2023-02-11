@@ -25,7 +25,7 @@ async function deactivateTranscriptions(param: DeactivateTranscriptionsConfig) {
     return SymblTranscriptionsHelpers.deactivateTranscriptions(param);
 }
 
-async function addTranscriptionsListerner(param: AddTranscriptionsListenerConfig) {
+async function addTranscriptionsListener(param: AddTranscriptionsListenerConfig) {
     if (!param?.meeting?.self) {
         throw new Error('arguments[0].meeting.self is not available. Did you miss calling new DyteClient first?');
     }
@@ -49,7 +49,7 @@ function getTranscriptions() {
 export {
     activateTranscriptions,
     deactivateTranscriptions,
-    addTranscriptionsListerner,
+    addTranscriptionsListener,
     removeTranscriptionsListener,
     getTranscriptions,
 };
