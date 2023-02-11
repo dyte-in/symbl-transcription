@@ -15,7 +15,7 @@ On top of the file where integration was found, import this package.
 import {
     activateTranscriptions,
     deactivateTranscriptions,
-    addTranscriptionsListerner,
+    addTranscriptionsListener,
     removeTranscriptionsListener
 } from '@dytesdk/symbl-transcription';
 ```
@@ -34,7 +34,7 @@ This would ensure that your audio gets translated and resultant transcriptions g
 If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
 
 ```
-addTranscriptionsListerner({
+addTranscriptionsListener({
     meeting: meeting,
     noOfTranscriptionsToCache: 200,
     transcriptionsCallback: (allFormattedTranscriptions) => { console.log(allFormattedTranscriptions); },
