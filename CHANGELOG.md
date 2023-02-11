@@ -1,3 +1,10 @@
+## [2.0.1-staging.1](https://github.com/dyte-in/symbl-transcription/compare/v2.0.0...v2.0.1-staging.1) (2023-02-11)
+
+
+### Bug Fixes
+
+* export function typo ([6bc8aac](https://github.com/dyte-in/symbl-transcription/commit/6bc8aacb8115a6c61ffc1ddca740ed602abc0abe))
+
 # [2.0.0](https://github.com/dyte-in/symbl-transcription/compare/v1.1.2...v2.0.0) (2022-09-01)
 
 
