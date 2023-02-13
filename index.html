@@ -70,7 +70,7 @@
 
             const init = async () => {
                 if(!params.authToken || (params.roomName && !params.authToken)){
-                    alert("Please pass an auth token and/or roomName in query params");
+                    alert("Please pass authToken (and roomName, if you are using v1 APIs) in query params");
                     return;
                 }
                 if(!params.symblAccessToken){
