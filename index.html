@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="module">
+            import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@dytesdk/ui-kit@1.42.0/loader/index.es2017.js';
+            defineCustomElements();
+        </script>
+        <!-- Import Web Core via CDN too -->
+        <script src="https://cdn.dyte.in/core/dyte.js"></script>
+        <script type="module" src="/src/index.ts"></script>
+        <style>
+            #dyte-transcriptions{
+                position: absolute;
+                bottom: 15%;
+                left: 25%;
+                background-color: black;
+                opacity: 0.7;
+                width: auto;
+                padding: 10px 10px;
+                max-width: 50%;
+                min-width: 10%;
+            }
+            .dyte-transcription-line{
+                display: block;
+            }
+            .dyte-transcription-speaker{
+                font-weight: bold;
+                color: white;
+            }
+            .dyte-transcription-text{
+                color: white;
+                font-weight: normal;
+            }
+        </style>
+      </head>
+      <body>
+        <dyte-meeting id="my-meeting"></dyte-meeting>
+        <div id="dyte-transcriptions"></div>
+        <script>
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+
+            function transcriptionsListenerCB(transcriptions) {
+                const transcriptionsDiv = document.getElementById('dyte-transcriptions');
+
+                if (transcriptionsDiv) {
+                    transcriptionsDiv.innerHTML = '';
+                    transcriptionsDiv.classList.remove('hidden');
+
+                    const transcriptionsToShow = transcriptions.slice(-3);
+
+                    transcriptionsToShow.forEach((transcription) => {
+                    const speakerSpan = document.createElement('span');
+                    speakerSpan.classList.add('dyte-transcription-speaker');
+                    speakerSpan.innerText = `${transcription.displayName}: `;
+
+                    const transcriptionSpan = document.createElement('span');
+                    transcriptionSpan.classList.add('dyte-transcription-text');
+                    transcriptionSpan.innerText = transcription.text?.toString();
+
+                    const transcriptionLine = document.createElement('span');
+                    transcriptionLine.classList.add('dyte-transcription-line');
+                    transcriptionLine.appendChild(speakerSpan).appendChild(transcriptionSpan);
+
+                    transcriptionsDiv.appendChild(transcriptionLine);
+                    });
+                }
+            }
+
+            const init = async () => {
+                if(!params.authToken || (params.roomName && !params.authToken)){
+                    alert("Please pass an auth token and/or roomName in query params");
+                    return;
+                }
+                if(!params.symblAccessToken){
+                    alert("Please pass symblAccessToken in query params");
+                    return;
+                }
+                const meeting = await DyteClient.init({
+                    authToken: params.authToken,
+                    roomName: params.roomName,
+                    defaults: {
+                    audio: true,
+                    video: false,
+                    },
+                });
+
+                document.getElementById('my-meeting').meeting = meeting;
+                Symbl.activateTranscriptions({
+                    meeting: meeting, // From DyteClient.init
+                    symblAccessToken: params.symblAccessToken
+                });
+                await Symbl.addTranscriptionsListener({
+                    meeting: meeting,
+                    noOfTranscriptionsToCache: 200,
+                    transcriptionsCallback: transcriptionsListenerCB,
+                });
+                meeting.self.on('roomLeft', () => {
+                    const transcriptionsDiv = document.getElementById('dyte-transcriptions')
+                    transcriptionsDiv.innerHTML = '';
+                    transcriptionsDiv.classList.add('hidden');
+                    Symbl.deactivateTranscriptions({ meeting });
+                });
+            };
+            init();
+        </script>
+      </body>
+</html>

@@ -1,6 +1,23 @@
 # Dyte <> Symbl.ai transcriptions
 
-## How to use?
+## How to test this?
+
+Go to terminal
+
+Install the packages.
+`npm install`
+
+Run it locally
+`npm run dev`
+
+It will run a server on localhost:3000 serving the HTML containing the sample integration from index.html.
+
+Use the following URL to test.
+`
+http://localhost:3000/?authToken=PUT_DYTE_PARTICIPANT_AUTH_TOKEN_HERE&symblAccessToken=PUT_SYMBL_ACCESS_TOKEN_HERE
+`
+
+## How to use it with Dyte?
 
 Find the Dyte integration logic in your codebase which may look like this
 
