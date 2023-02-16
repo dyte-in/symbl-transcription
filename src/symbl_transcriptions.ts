@@ -48,6 +48,7 @@ async function activateTranscriptions({
                             endTimeISO: message.duration?.endTime || new Date().toISOString(),
                             peerId: meeting.self.id,
                             displayName: meeting.self.name,
+                            id: message.id,
                         },
                     );
                 }
@@ -67,6 +68,7 @@ async function activateTranscriptions({
                     {
                         text: data.message.punctuated.transcript,
                         isPartialTranscript: true,
+                        // Partial transcriptions would not be having messageId
                         startTimeISO: data.message.duration?.startTime || new Date().toISOString(),
                         endTimeISO: data.message.duration?.endTime || new Date().toISOString(),
                         peerId: meeting.self.id,
