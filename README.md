@@ -1,34 +1,19 @@
 # Dyte <> Symbl.ai transcriptions
 
-## How to test this?
-
-Go to terminal
-
-Install the packages.
-`npm install`
-
-Run it locally
-`npm run dev`
-
-It will run a server on localhost:3000 serving the HTML containing the sample integration from index.html.
-
-Use the following URL to test.
-`
-http://localhost:3000/?authToken=PUT_DYTE_PARTICIPANT_AUTH_TOKEN_HERE&symblAccessToken=PUT_SYMBL_ACCESS_TOKEN_HERE
-`
+A quick and easy solution to integrate Symbl.ai's transcriptions and conversational AI services with Dyte's SDK.
 
 ## How to use it with Dyte?
 
-Find the Dyte integration logic in your codebase which may look like this
+1. Please find the Dyte integration logic in your codebase which may look like the following.
 
-```
+```js
 // Somewhere in your codebase
 const meeting = await DyteClient.init(...)
 ```
 
-On top of the file where integration was found, import this package.
+2. On top of the file where integration was found, import this package.
 
-```
+```js
 import {
     activateTranscriptions,
     deactivateTranscriptions,
@@ -37,9 +22,10 @@ import {
 } from '@dytesdk/symbl-transcription';
 ```
 
-Now you can activate Symbl transcriptions.
 
-```
+3. Now you can activate Symbl transcriptions.
+
+```js
 activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
@@ -48,15 +34,14 @@ activateTranscriptions({
 });
 ```
 
-This would ensure that your audio gets translated and resultant transcriptions get sent to all participants including `self` being referred by `meeting.self`.
+This method internally connects with Symbl using Websocket connection & automatically forwards the audio to them, while your Mic is on. On receiving transcriptions from Symbl, we broadcast those transcriptions to all the participants of the meeting, including the speaker, being referred by `meeting.self` .
 
 `connectionId` field is optional. If not passed, value of `meeting.meta.roomName` will be used as `connectionId`.
 
 `speakerUserId` field is optional. If not passed, value of `meeting.self.clientSpecificId` will be used as `speakerUserId`.
 
 
-
-If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
+4. If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
 
 ```
 addTranscriptionsListener({
@@ -65,6 +50,11 @@ addTranscriptionsListener({
     transcriptionsCallback: (allFormattedTranscriptions) => { console.log(allFormattedTranscriptions); },
 })
 ```
+
+Above code snippet helps you segregate speakers from listeners.
+
+For example, If you know that a participant is only meant to act as a listener, you can avoid calling `activateTranscriptions` and simply only call `addTranscriptionsListener` that runs solely over Dyte, thus reducing concurrent connections to Symbl thus giving you a potential cost benefit.
+
 
 Using `transcriptionsCallback` you can populate the transcriptions in your app/website at any desired place.
 
@@ -75,10 +65,9 @@ Once meeting is over, deactivate the transcription generation.
 ```
 deactivateTranscriptions({
     meeting: meeting, // From DyteClient.init
-    symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
 });
 ```
-In similar fashion, remove the transcriptions listener, once the meeting is over.
+In a similar fashion, remove the transcriptions listener, once the meeting is over.
 
 ```
 removeTranscriptionsListener({meeting: meeting});
