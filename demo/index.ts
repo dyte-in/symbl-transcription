@@ -3,16 +3,27 @@ import { defineCustomElements } from '@dytesdk/ui-kit/loader/index.es2017';
 import {
     activateTranscriptions,
     addTranscriptionsListener,
+    deactivateTranscriptions,
+    removeTranscriptionsListener,
 } from '../src/index';
 
 defineCustomElements();
 
 const init = async () => {
     try {
-        const url = new URL(window.location.href);
-        const roomName = url.searchParams.get('roomName') || '';
-        const authToken = url.searchParams.get('authToken') || '';
-        const symblAccessToken = url.searchParams.get('symblAccessToken') || '';
+        const params = new URLSearchParams(window.location.search);
+        const roomName = params.get('roomName') || '';
+        const authToken = params.get('authToken') || '';
+        const symblAccessToken = params.get('symblAccessToken') || '';
+
+        if (!authToken || (roomName && !authToken)) {
+            alert('Please pass authToken (and roomName, if you are using v1 APIs) in query params');
+            return;
+        }
+        if (!symblAccessToken) {
+            alert('Please pass symblAccessToken in query params');
+            return;
+        }
 
         const meeting = await DyteClient.init({
             authToken,
@@ -58,6 +69,13 @@ const init = async () => {
                     transcription.appendChild(container);
                 });
             },
+        });
+
+        meeting.self.on('roomLeft', () => {
+            const transcriptionsDiv = document.getElementById('dyte-transcriptions') as HTMLDivElement;
+            transcriptionsDiv.innerHTML = '';
+            deactivateTranscriptions({ meeting });
+            removeTranscriptionsListener({ meeting });
         });
     } catch (e) {
         console.log(e);

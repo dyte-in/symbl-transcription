@@ -26,10 +26,18 @@ Now you can activate Symbl transcriptions.
 activateTranscriptions({
     meeting: meeting, // From DyteClient.init
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
+    connectionId: 'SOME_ARBITRARY_CONNECTION_ID', // optional,
+    speakerUserId: 'SOME_ARBITRARY_USER_ID_FOR_SPEAKER', // optional
 });
 ```
 
 This would ensure that your audio gets translated and resultant transcriptions get sent to all participants including `self` being referred by `meeting.self`.
+
+`connectionId` field is optional. If not passed, value of `meeting.meta.roomName` will be used as `connectionId`.
+
+`speakerUserId` field is optional. If not passed, value of `meeting.self.clientSpecificId` will be used as `speakerUserId`.
+
+
 
 If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
 
@@ -76,3 +84,36 @@ curl -k -X POST "https://api.symbl.ai/oauth2/token:generate" \
       "appSecret": "YOUR_APP_SECRET"
     }'
 ```
+
+# How to subscribe to transcriptions of this conversation?
+
+Please pass a unique `connectionId` for this meeting and a unique `speakerUserId` for the speaker while activating treanscriptions using `activateTranscriptions` method.
+
+This would help you use subscribe API of Symbl, located at https://docs.symbl.ai/reference/subscribe-api along with better control over the speakers.
+
+# How to test Symbl integration quickly without having to integrate Dyte beforehand?
+
+To see the demo or to test the Symbl integration, please go to https://github.com/dyte-in/symbl-transcription and clone the repo and run the npm script named `dev`.
+
+```sh
+git clone https://github.com/dyte-in/symbl-transcription.git
+cd symbl-transcription
+npm install
+npm run dev
+```
+
+It will run a server on localhost:3000 serving the HTML containing the sample integration from index.html.
+
+Please use the following URL to see the Default Dyte Meeting interface.
+
+```text
+http://localhost:3000/?authToken=PUT_DYTE_PARTICIPANT_AUTH_TOKEN_HERE&symblAccessToken=PUT_SYMBL_ACCESS_TOKEN_HERE
+
+```
+
+In case you are still using v1 meetings, please use the following URL.
+```text
+http://localhost:3000/?authToken=PUT_DYTE_PARTICIPANT_AUTH_TOKEN_HERE&symblAccessToken=PUT_SYMBL_ACCESS_TOKEN_HERE&roomName=PUT_DYTE_ROOM_NAME_HERE
+```
+
+Once the Dyte UI is loaded, please turn on the Mic and grant permissions, if asked. Post that, try speaking sentences in English (default) to see the transcriptions.

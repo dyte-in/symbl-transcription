@@ -50,6 +50,7 @@ async function activateTranscriptions({
                             endTimeISO: message.duration?.endTime || new Date().toISOString(),
                             peerId: meeting.self.id,
                             displayName: meeting.self.name,
+                            id: message.id,
                         },
                     );
                 }
@@ -103,7 +104,7 @@ async function activateTranscriptions({
                 languageCode, // Symbl has bug. This field is not honoured
                 speechRecognition: {
                     encoding: 'LINEAR16',
-                    sampleRateHertz: 44100,
+                    sampleRateHertz: 16000,
                 },
             },
             speaker: {
