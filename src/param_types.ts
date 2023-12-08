@@ -5,6 +5,8 @@ export interface ActivateTranscriptionsConfig {
     meeting: DyteClient,
     symblAccessToken: string,
     languageCode?: string,
+    connectionId?: string,
+    speakerUserId?: string,
 }
 
 export interface DeactivateTranscriptionsConfig {

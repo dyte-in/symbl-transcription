@@ -19,13 +19,15 @@ async function activateTranscriptions({
     meeting,
     symblAccessToken,
     languageCode,
+    connectionId,
+    speakerUserId,
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
     deactivateTranscriptions({ meeting });
 
-    const uniqueMeetingId = meeting.meta.roomName;
-    const symblEndpoint = `wss://api.symbl.ai/v1/streaming/${uniqueMeetingId}?access_token=${symblAccessToken}`;
+    const symblConnectionId = connectionId || meeting.meta.roomName;
+    const symblEndpoint = `wss://api.symbl.ai/v1/streaming/${symblConnectionId}?access_token=${symblAccessToken}`;
 
     const ws = new WebSocket(symblEndpoint);
     setWebSocket(ws);
@@ -105,7 +107,8 @@ async function activateTranscriptions({
                 },
             },
             speaker: {
-                peerId: meeting.self.id, // this if has email, gets transcription at the end
+                // this if has email, gets transcription at the end
+                userId: speakerUserId || meeting.self.clientSpecificId || meeting.self.id,
                 name: meeting.self.name,
             },
         }));
