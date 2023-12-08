@@ -30,7 +30,6 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --ext .js --fix",
     "build": "tsc && vite build && vite build -c vite.umd.config.ts",
-    "dev": "VITE_DEV=true vite",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "cp package.json package.json.bak && node prepublish.js",
     "postpublish": "mv package.json.bak package.json",

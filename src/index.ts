@@ -53,16 +53,3 @@ export {
     removeTranscriptionsListener,
     getTranscriptions,
 };
-
-const isLocal = import.meta.env.DEV;
-if (isLocal) {
-    Object.assign(window, {
-        Symbl: {
-            activateTranscriptions,
-            deactivateTranscriptions,
-            addTranscriptionsListener,
-            removeTranscriptionsListener,
-            getTranscriptions,
-        },
-    });
-}
