@@ -32,16 +32,19 @@
     "build": "tsc && vite build && vite build -c vite.umd.config.ts",
     "prepare": "is-ci || husky install",
     "prepublishOnly": "cp package.json package.json.bak && node prepublish.js",
-    "postpublish": "mv package.json.bak package.json"
+    "postpublish": "mv package.json.bak package.json",
+    "dev": "vite"
   },
   "peerDepdendencies": {
     "@dytesdk/web-core": ">=0.26.0"
   },
-  "dependencies": {},
+  "dependencies": {
+  },
   "devDependencies": {
-    "@dytesdk/web-core": ">=0.26.0",
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "@dytesdk/ui-kit": "^1.59.0",
+    "@dytesdk/web-core": "1.20.0",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/exec": "^5.0.0",

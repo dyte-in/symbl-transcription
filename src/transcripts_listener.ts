@@ -4,7 +4,7 @@
  * This is being done to propagate User Name against their transcriptions.
  */
 
-import { BroadcastMessagePayload } from '@dytesdk/web-core/types/client/DyteParticipants';
+import type { BroadcastMessagePayload } from '@dytesdk/web-core';
 import {
     AddTranscriptionsListenerConfig,
     RemoveTranscriptionsListenerConfig,

@@ -107,9 +107,11 @@ async function activateTranscriptions({
                 },
             },
             speaker: {
-                // this if has email, gets transcription at the end
+                // if speaker has email key, transcription gets sent at the end
+                // speaker supports all arbitary values
                 userId: speakerUserId || meeting.self.clientSpecificId || meeting.self.id,
                 name: meeting.self.name,
+                peerId: meeting.self.id,
             },
         }));
     };
