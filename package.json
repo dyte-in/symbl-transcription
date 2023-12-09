@@ -1,6 +1,6 @@
 {
   "name": "@dyte-in/symbl-transcription",
-  "version": "2.0.1-staging.1",
+  "version": "2.1.0",
   "description": "Audio middleware to generate transcriptions using Symbl.ai APIs",
   "types": "./types/index.d.ts",
   "main": "./dist/index.cjs.js",
@@ -43,8 +43,7 @@
   "peerDepdendencies": {
     "@dytesdk/web-core": ">=0.26.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",

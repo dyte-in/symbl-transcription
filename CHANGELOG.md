@@ -1,3 +1,19 @@
+# [2.1.0](https://github.com/dyte-in/symbl-transcription/compare/v2.0.0...v2.1.0) (2023-12-09)
+
+
+### Bug Fixes
+
+* **incompatible-sample-rate:** wireless devices with 16000hz were not working ([e9ee3d1](https://github.com/dyte-in/symbl-transcription/commit/e9ee3d180df4b254b1639227d872793e9ec3b27b))
+* export function typo ([6bc8aac](https://github.com/dyte-in/symbl-transcription/commit/6bc8aacb8115a6c61ffc1ddca740ed602abc0abe))
+* semantic release ([5c9ff60](https://github.com/dyte-in/symbl-transcription/commit/5c9ff60353aeb363b5671c728da147b339197d19))
+
+
+### Features
+
+* **connectionid-speakeruserid-support:** added support for passing userId & connectionId ([293099d](https://github.com/dyte-in/symbl-transcription/commit/293099df03cb1be995f0d492d483947ad7bdebba))
+* **message-id-support:** added message id support with a quick test setup ([22802a1](https://github.com/dyte-in/symbl-transcription/commit/22802a1fb0b5c4c53f89e80c0d2f2372b753b18f))
+* **sample-demo:** added demo files to perform a quick demo without having to setup Dyte fully ([17b64c6](https://github.com/dyte-in/symbl-transcription/commit/17b64c6d4ee8e7eb79c6142afd313241cb55bd70))
+
 ## [2.0.1-staging.1](https://github.com/dyte-in/symbl-transcription/compare/v2.0.0...v2.0.1-staging.1) (2023-02-11)
 
 
