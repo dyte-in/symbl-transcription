@@ -1,4 +1,4 @@
-import { BroadcastMessagePayload } from '@dytesdk/web-core/types/client/DyteParticipants';
+import type { BroadcastMessagePayload } from '@dytesdk/web-core';
 
 let ws: WebSocket;
 

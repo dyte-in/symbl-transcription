@@ -19,13 +19,15 @@ async function activateTranscriptions({
     meeting,
     symblAccessToken,
     languageCode,
+    connectionId,
+    speakerUserId,
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
     deactivateTranscriptions({ meeting });
 
-    const uniqueMeetingId = meeting.meta.roomName;
-    const symblEndpoint = `wss://api.symbl.ai/v1/streaming/${uniqueMeetingId}?access_token=${symblAccessToken}`;
+    const symblConnectionId = connectionId || meeting.meta.roomName;
+    const symblEndpoint = `wss://api.symbl.ai/v1/streaming/${symblConnectionId}?access_token=${symblAccessToken}`;
 
     const ws = new WebSocket(symblEndpoint);
     setWebSocket(ws);
@@ -103,12 +105,15 @@ async function activateTranscriptions({
                 languageCode, // Symbl has bug. This field is not honoured
                 speechRecognition: {
                     encoding: 'LINEAR16',
-                    sampleRateHertz: 44100,
+                    sampleRateHertz: 16000,
                 },
             },
             speaker: {
-                peerId: meeting.self.id, // this if has email, gets transcription at the end
+                // if speaker has email key, transcription gets sent at the end
+                // speaker supports all arbitary values
+                userId: speakerUserId || meeting.self.clientSpecificId || meeting.self.id,
                 name: meeting.self.name,
+                peerId: meeting.self.id,
             },
         }));
     };
