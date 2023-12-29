@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/dyte-in/symbl-transcription/compare/v2.1.0...v2.2.0) (2023-12-29)
+
+
+### Features
+
+* **start-request-params:** added the ability to control start request params ([3c61190](https://github.com/dyte-in/symbl-transcription/commit/3c611908eda8e6df49a583d623f27bd0f221c86c))
+
 # [2.1.0](https://github.com/dyte-in/symbl-transcription/compare/v2.0.0...v2.1.0) (2023-12-09)
 
 
