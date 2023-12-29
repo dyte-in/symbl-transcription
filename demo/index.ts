@@ -43,6 +43,12 @@ const init = async () => {
             meeting,
             languageCode: 'en-US',
             symblAccessToken,
+            symblStartRequestParams: { // optional. Subset of https://docs.symbl.ai/reference/streaming-api-reference#start_request
+                noConnectionTimeout: 0,
+                config: {
+                    sentiment: false,
+                },
+            },
         });
 
         await addTranscriptionsListener({
