@@ -1,3 +1,4 @@
+import merge from 'lodash-es/merge';
 import audioTranscriptionMiddleware from './audio_middleware';
 import { ActivateTranscriptionsConfig, DeactivateTranscriptionsConfig } from './param_types';
 import {
@@ -7,7 +8,6 @@ import {
     setTranscriptions,
     setWebSocket,
 } from './transcriptions_building_blocks';
-
 /**
  *
  * @param ActivateTranscriptionsConfig Required params to initialise the middleware.
@@ -21,6 +21,7 @@ async function activateTranscriptions({
     languageCode,
     connectionId,
     speakerUserId,
+    symblStartRequestParams = {},
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
@@ -35,6 +36,10 @@ async function activateTranscriptions({
     // Fired when a message is received from the WebSocket server
     ws.onmessage = async (event) => {
         const data = JSON.parse(event.data);
+        if (data.type === 'error') {
+            console.error('Symbl error: ', data);
+            return;
+        }
         if (data.type === 'message_response') {
             data.messages?.forEach((message: any) => {
                 // console.log('Live transcript (more accurate): ', message.payload.content, data);
@@ -93,29 +98,32 @@ async function activateTranscriptions({
         console.info('Connection to Symbl websocket closed');
     };
 
+    // If start_request params are there, they wil be given a top priority
+    const startRequestParams = merge({
+        id: meeting.self.id,
+        type: 'start_request',
+        meetingTitle: meeting.meta.meetingTitle,
+        // insightTypes: ['question', 'action_item'], // Will enable insight generation
+        config: {
+            confidenceThreshold: 0.5,
+            languageCode, // Symbl has bug. This field is not honoured
+            speechRecognition: {
+                encoding: 'LINEAR16',
+                sampleRateHertz: 16000,
+            },
+        },
+        speaker: {
+            // if speaker has email key, transcription gets sent at the end
+            // speaker supports all arbitary values
+            userId: speakerUserId || meeting.self.clientSpecificId || meeting.self.id,
+            name: meeting.self.name,
+            peerId: meeting.self.id,
+        },
+    }, symblStartRequestParams);
+
     // Fired when the connection succeeds.
     ws.onopen = () => {
-        ws.send(JSON.stringify({
-            id: meeting.self.id,
-            type: 'start_request',
-            meetingTitle: meeting.meta.meetingTitle,
-            // insightTypes: ['question', 'action_item'], // Will enable insight generation
-            config: {
-                confidenceThreshold: 0.5,
-                languageCode, // Symbl has bug. This field is not honoured
-                speechRecognition: {
-                    encoding: 'LINEAR16',
-                    sampleRateHertz: 16000,
-                },
-            },
-            speaker: {
-                // if speaker has email key, transcription gets sent at the end
-                // speaker supports all arbitary values
-                userId: speakerUserId || meeting.self.clientSpecificId || meeting.self.id,
-                name: meeting.self.name,
-                peerId: meeting.self.id,
-            },
-        }));
+        ws.send(JSON.stringify(startRequestParams));
     };
 
     return meeting.self.addAudioMiddleware(audioTranscriptionMiddleware);

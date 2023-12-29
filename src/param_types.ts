@@ -7,6 +7,9 @@ export interface ActivateTranscriptionsConfig {
     languageCode?: string,
     connectionId?: string,
     speakerUserId?: string,
+    symblStartRequestParams?: { // https://docs.symbl.ai/reference/streaming-api-reference#start_request
+        [key:string]: any,
+    },
 }
 
 export interface DeactivateTranscriptionsConfig {

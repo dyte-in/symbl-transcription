@@ -31,6 +31,12 @@ activateTranscriptions({
     symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
     connectionId: 'SOME_ARBITRARY_CONNECTION_ID', // optional,
     speakerUserId: 'SOME_ARBITRARY_USER_ID_FOR_SPEAKER', // optional
+    symblStartRequestParams: { // optional. Subset of https://docs.symbl.ai/reference/streaming-api-reference#start_request
+        noConnectionTimeout: 0,
+        config: {
+            sentiment: false,
+        },
+    },
 });
 ```
 
@@ -39,6 +45,27 @@ This method internally connects with Symbl using Websocket connection & automati
 `connectionId` field is optional. If not passed, value of `meeting.meta.roomName` will be used as `connectionId`.
 
 `speakerUserId` field is optional. If not passed, value of `meeting.self.clientSpecificId` will be used as `speakerUserId`.
+
+`symblStartRequestParams` field is optional. In case you want to control Symbl settings further, you can override the values by passing just the fields to override, from https://docs.symbl.ai/reference/streaming-api-reference#start_request. 
+
+We perform deep merge of the passed value with the defaults, therefore no need to construct complete start_request message. For example, If you want to add just the email field to speaker and also want to change noConnectionTimeout to 300, you can do so using the following code snippet.
+
+```js
+activateTranscriptions({
+    meeting: meeting, // From DyteClient.init
+    symblAccessToken: 'ACCESS_TOKEN_FROM_SYMBL_AI',
+    connectionId: 'SOME_ARBITRARY_CONNECTION_ID', // optional,
+    speakerUserId: 'SOME_ARBITRARY_USER_ID_FOR_SPEAKER', // optional
+    symblStartRequestParams: { // optional. Any subset of https://docs.symbl.ai/reference/streaming-api-reference#start_request
+        noConnectionTimeout: 300,
+        speaker: {
+            email: 'test@test.com',
+        }
+    }
+});
+```
+
+<b>Note:</b> If, in case, the passed fields are incorrect or poorly placed, conversation might not get created. In such cases, an error would be logged in developer console for you to debug further.
 
 
 4. If you want to show transcriptions to a participant or for `self`, you can do so using the following snippet.
