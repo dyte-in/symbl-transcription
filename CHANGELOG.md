@@ -1,3 +1,12 @@
+## [2.2.1](https://github.com/dyte-in/symbl-transcription/compare/v2.2.0...v2.2.1) (2024-01-03)
+
+
+### Bug Fixes
+
+* add conversationId to transcriptions ([8522ce4](https://github.com/dyte-in/symbl-transcription/commit/8522ce4fb0e68d68c0075b7d1c3f4be15fd9e805))
+* add docs ([8399ee6](https://github.com/dyte-in/symbl-transcription/commit/8399ee6aae424c6dfb9f47e41f04e3a1a0b95d23))
+* do not set a default parameter ([ee3af81](https://github.com/dyte-in/symbl-transcription/commit/ee3af8166ede777a6386c28a4b57fa8299bd2068))
+
 # [2.2.0](https://github.com/dyte-in/symbl-transcription/compare/v2.1.0...v2.2.0) (2023-12-29)
 
 
