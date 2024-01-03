@@ -2,8 +2,10 @@ import merge from 'lodash-es/merge';
 import audioTranscriptionMiddleware from './audio_middleware';
 import { ActivateTranscriptionsConfig, DeactivateTranscriptionsConfig } from './param_types';
 import {
+    getConversationId,
     getPeerIdBySymblId,
     getWebSocket,
+    setConversationId,
     setPeerIdForSymblId,
     setTranscriptions,
     setWebSocket,
@@ -22,6 +24,7 @@ async function activateTranscriptions({
     connectionId,
     speakerUserId,
     symblStartRequestParams = {},
+    symblStreamingMessageCallback = () => {},
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
@@ -40,6 +43,11 @@ async function activateTranscriptions({
             console.error('Symbl error: ', data);
             return;
         }
+        if (data.type === 'message' && data.message.type === 'conversation_created') {
+            // console.log('Symbl conversation created: ', data);
+            setConversationId(data.message.data.conversationId);
+        }
+
         if (data.type === 'message_response') {
             data.messages?.forEach((message: any) => {
                 // console.log('Live transcript (more accurate): ', message.payload.content, data);
@@ -56,6 +64,7 @@ async function activateTranscriptions({
                             peerId: meeting.self.id,
                             displayName: meeting.self.name,
                             id: message.id,
+                            conversationId: getConversationId(),
                         },
                     );
                 }
@@ -80,9 +89,15 @@ async function activateTranscriptions({
                         endTimeISO: data.message.duration?.endTime || new Date().toISOString(),
                         peerId: meeting.self.id,
                         displayName: meeting.self.name,
+                        conversationId: getConversationId(),
                     },
                 );
             }
+        }
+
+        // Call the callback
+        if (symblStreamingMessageCallback) {
+            symblStreamingMessageCallback(data);
         }
     };
 

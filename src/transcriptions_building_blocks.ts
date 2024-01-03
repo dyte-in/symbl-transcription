@@ -3,6 +3,7 @@ import type { BroadcastMessagePayload } from '@dytesdk/web-core';
 let ws: WebSocket;
 
 let transcriptions: BroadcastMessagePayload[] = [];
+let conversationId: string = '';
 
 const symblIdToPeerIdMap: {[key: string]: string} = {};
 
@@ -29,6 +30,14 @@ function setPeerIdForSymblId(symblId: string, peerId: string) {
     symblIdToPeerIdMap[symblId] = peerId;
 }
 
+function getConversationId() {
+    return conversationId;
+}
+
+function setConversationId(newConversationId: string) {
+    conversationId = newConversationId;
+}
+
 export {
     getWebSocket,
     setWebSocket,
@@ -36,4 +45,6 @@ export {
     setTranscriptions,
     getPeerIdBySymblId,
     setPeerIdForSymblId,
+    getConversationId,
+    setConversationId,
 };
