@@ -24,7 +24,7 @@ async function activateTranscriptions({
     connectionId,
     speakerUserId,
     symblStartRequestParams = {},
-    symblStreamingMessageCallback = () => {},
+    symblStreamingMessageCallback,
 }: ActivateTranscriptionsConfig) {
     // As a fail-safe, deactivateTranscriptions if activateTranscriptions function is called twice
     // eslint-disable-next-line no-use-before-define
