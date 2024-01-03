@@ -37,6 +37,9 @@ activateTranscriptions({
             sentiment: false,
         },
     },
+    symblStreamingMessageCallback: (event) => { // optional. If you need it for a custom use case
+        console.log('event from symbl')
+    },
 });
 ```
 
@@ -61,7 +64,10 @@ activateTranscriptions({
         speaker: {
             email: 'test@test.com',
         }
-    }
+    },
+    symblStreamingMessageCallback: (event) => { // optional. If you need it for a custom use case
+        console.log('event from symbl')
+    },
 });
 ```
 

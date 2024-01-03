@@ -12,12 +12,11 @@ defineCustomElements();
 const init = async () => {
     try {
         const params = new URLSearchParams(window.location.search);
-        const roomName = params.get('roomName') || '';
         const authToken = params.get('authToken') || '';
         const symblAccessToken = params.get('symblAccessToken') || '';
 
-        if (!authToken || (roomName && !authToken)) {
-            alert('Please pass authToken (and roomName, if you are using v1 APIs) in query params');
+        if (!authToken) {
+            alert('Please pass authToken in query params');
             return;
         }
         if (!symblAccessToken) {
@@ -27,8 +26,6 @@ const init = async () => {
 
         const meeting = await DyteClient.init({
             authToken,
-            roomName,
-            apiBase: 'https://api.dyte.io',
             defaults: {
                 audio: false,
                 video: false,

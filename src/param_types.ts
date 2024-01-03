@@ -10,6 +10,7 @@ export interface ActivateTranscriptionsConfig {
     symblStartRequestParams?: { // https://docs.symbl.ai/reference/streaming-api-reference#start_request
         [key:string]: any,
     },
+    symblStreamingMessageCallback?: (event: any) => void,
 }
 
 export interface DeactivateTranscriptionsConfig {
